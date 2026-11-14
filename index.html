@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hanzi Cards · A1 Chinese characters</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="seal" aria-hidden="true">汉</span>
+      <div>
+        <h1>Hanzi Cards</h1>
+        <p>A1 · HSK 1 characters</p>
+      </div>
+    </div>
+    <div class="controls">
+      <label class="field">
+        <span>Deck</span>
+        <select id="deck"></select>
+      </label>
+      <div class="segmented" role="group" aria-label="Mode">
+        <button data-mode="copy" title="See the character and copy it">Copy</button>
+        <button data-mode="recall" title="See only pinyin + meaning, write from memory">Recall</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+  <p class="progress-label" id="progressLabel"></p>
+
+  <main id="practice">
+    <div class="stage">
+      <section class="card" id="card">
+        <span class="card-tag" id="cardTag"></span>
+        <div class="card-char" id="cardChar"></div>
+        <div class="card-mystery" aria-hidden="true">?</div>
+        <div class="card-pinyin" id="cardPinyin"></div>
+        <div class="card-meaning" id="cardMeaning"></div>
+      </section>
+
+      <section class="writer">
+        <div class="pad" id="pad">
+          <div class="ghost" id="ghost"></div>
+          <canvas id="canvas" aria-label="Writing box: draw the character here"></canvas>
+        </div>
+        <div class="tools">
+          <button class="tool" id="undoBtn" title="Undo last stroke (Z)">↶ Undo</button>
+          <button class="tool" id="clearBtn" title="Clear the box (C)">✕ Clear</button>
+          <button class="tool" id="hintBtn" title="Show a faint outline to trace (H)">✎ Hint</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="actions">
+      <button class="btn primary" id="revealBtn">Check <kbd>Space</kbd></button>
+      <div class="grade" id="gradeBtns" hidden>
+        <button class="btn again" id="againBtn">Again <kbd>1</kbd></button>
+        <button class="btn good" id="goodBtn">Got it <kbd>2</kbd></button>
+      </div>
+    </div>
+  </main>
+
+  <section class="done" id="done" hidden>
+    <div class="done-seal">完</div>
+    <h2>Deck complete!</h2>
+    <p id="doneStats"></p>
+    <button class="btn primary" id="restartBtn">Practice again</button>
+  </section>
+
+  <footer class="foot">Write in the box with your mouse, finger or stylus · Progress is saved in this browser</footer>
+
+  <!-- Order matters: data first, then the drawing pad, then the app that uses both. -->
+  <script src="js/characters.js"></script>
+  <script src="js/drawing-pad.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
