@@ -6,7 +6,8 @@ by hand in the box next to it, checks against an overlay, and grades themselves.
 
 ## How to run
 - No install, no build. Open `index.html` in a browser.
-- Or serve it: `python3 -m http.server 8000`, then open http://localhost:8000
+- Local server: `node scripts/serve.js` (port 8000, or pass a port), then open http://localhost:8000.
+  Double-click launchers: `start.command` (Mac/Linux), `start.bat` (Windows). Fallback: `python3 -m http.server 8000`.
 - Check the character data: `node scripts/check-data.js`
 
 ## Project structure
@@ -15,6 +16,8 @@ by hand in the box next to it, checks against an overlay, and grades themselves.
 - `js/characters.js` – the `CHARACTERS` array. **All learning content lives here.**
 - `js/drawing-pad.js` – `DrawingPad` class: canvas handwriting (strokes, undo, clear).
 - `js/app.js` – card queue, modes (copy/recall), grading, keyboard shortcuts, progress in localStorage.
+- `scripts/serve.js` – zero-dependency Node static server for localhost.
+- `start.command` / `start.bat` – double-click launchers that start the server and open the browser.
 - `scripts/check-data.js` – validates `characters.js` (fields present, no duplicates, tone marks).
 - `.claude/skills/` – project skills for Claude Code (e.g. `/add-characters`).
 
