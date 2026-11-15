@@ -2,8 +2,10 @@
 
 Practise writing A1 (HSK 1) simplified Chinese characters by hand.
 
-- **Copy mode** – see the character, write it in the grid box.
-- **Recall mode** – see only pinyin + meaning, write it from memory.
+Each card is a real flashcard — **tap it to flip it over**.
+
+- **Copy mode** – front: the character · back: pinyin + meaning. Copy it into the grid box.
+- **Recall mode** – front: pinyin + meaning · back: the character. Write it from memory.
 - Press **Check** to overlay the real character on your writing, then grade yourself.
   Cards you miss come back a few cards later.
 
@@ -24,8 +26,9 @@ Quickest of all: just double-click `index.html` — it also works without a serv
 ## Keyboard
 | Key | Action |
 | --- | --- |
-| Space / Enter | Check, then "Got it" |
+| Space / Enter | Check (flips the card + shows overlay), then "Got it" |
 | 1 / 2 | Again / Got it |
+| F (or click the card) | Flip the card |
 | H | Toggle tracing hint |
 | Z / C | Undo stroke / Clear box |
 

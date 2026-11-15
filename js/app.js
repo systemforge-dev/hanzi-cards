@@ -17,6 +17,7 @@
     learned: 0,
     misses: 0,
     revealed: false,
+    flipped: false, // false = front side showing, true = back side
     hint: false,
   };
 
@@ -78,25 +79,59 @@
     state.hint = false;
     pad.clear();
 
-    $("cardChar").textContent = card.char;
     $("ghost").textContent = card.char;
-    $("cardPinyin").textContent = card.pinyin;
-    $("cardTag").textContent = card.category;
+    document.querySelectorAll(".card-tag").forEach((t) => (t.textContent = card.category));
 
+    snapToFront();
     const cardEl = $("card");
     cardEl.classList.remove("enter");
-    void cardEl.offsetWidth; // restart the animation
+    void cardEl.offsetWidth; // restart the enter animation
     cardEl.classList.add("enter");
 
+    buildFaces();
     updateView();
   }
 
-  function updateView() {
+  // Turn the card to its front instantly (no animation),
+  // so the answer on the back never flashes by when the content changes.
+  function snapToFront() {
+    const cardEl = $("card");
+    state.flipped = false;
+    cardEl.classList.add("no-anim");
+    cardEl.classList.remove("flipped");
+    void cardEl.offsetWidth; // make the browser apply it right now
+    cardEl.classList.remove("no-anim");
+  }
+
+  // Small helper: make an element with a class and some text.
+  function el(className, text) {
+    const node = document.createElement("div");
+    node.className = className;
+    node.textContent = text;
+    return node;
+  }
+
+  // Fill the two sides of the card.
+  // Copy mode:   front = character,          back = pinyin + meaning
+  // Recall mode: front = pinyin + meaning,   back = character
+  function buildFaces() {
     const card = state.queue[0];
-    const hidden = state.mode === "recall" && !state.revealed;
-    $("card").classList.toggle("hide-char", hidden);
-    // In recall mode, don't give the answer away inside the meaning, e.g. "time (时＿)".
-    if (card) $("cardMeaning").textContent = hidden ? card.meaning.split(card.char).join("＿") : card.meaning;
+    if (!card) return;
+    const front = $("frontBody");
+    const back = $("backBody");
+    if (state.mode === "copy") {
+      front.replaceChildren(el("big-char", card.char));
+      back.replaceChildren(el("small-char", card.char), el("big-pinyin", card.pinyin), el("big-meaning", card.meaning));
+    } else {
+      // Don't give the answer away inside the meaning, e.g. "time (时＿)".
+      const safeMeaning = card.meaning.split(card.char).join("＿");
+      front.replaceChildren(el("big-pinyin", card.pinyin), el("big-meaning", safeMeaning));
+      back.replaceChildren(el("big-char", card.char), el("card-pinyin", card.pinyin), el("card-meaning", card.meaning));
+    }
+  }
+
+  function updateView() {
+    $("card").classList.toggle("flipped", state.flipped);
     $("ghost").className = "ghost" + (state.revealed ? " compare" : state.hint ? " hint" : "");
     $("hintBtn").classList.toggle("on", state.hint);
     $("revealBtn").hidden = state.revealed;
@@ -114,9 +149,18 @@
   }
 
   // ---------- Actions ----------
+  // Check: flip to the back and lay the real character over your writing.
   function reveal() {
     if (state.revealed || $("practice").hidden) return;
     state.revealed = true;
+    state.flipped = true;
+    updateView();
+  }
+
+  // Turn the card over (any time, as often as you like).
+  function flip() {
+    if ($("practice").hidden) return;
+    state.flipped = !state.flipped;
     updateView();
   }
 
@@ -157,6 +201,8 @@
   function setMode(mode) {
     state.mode = mode;
     safeSet(MODE_KEY, mode);
+    snapToFront();
+    buildFaces();
     updateView();
   }
 
@@ -168,6 +214,7 @@
   $("clearBtn").addEventListener("click", () => pad.clear());
   $("hintBtn").addEventListener("click", toggleHint);
   $("restartBtn").addEventListener("click", startDeck);
+  $("card").addEventListener("click", flip);
   document.querySelectorAll(".segmented button").forEach((b) =>
     b.addEventListener("click", () => setMode(b.dataset.mode))
   );
@@ -181,6 +228,7 @@
     else if (key === "z") pad.undo();
     else if (key === "c") pad.clear();
     else if (key === "h") toggleHint();
+    else if (key === "f") flip();
   });
 
   buildDeckSelect();

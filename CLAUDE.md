@@ -1,8 +1,9 @@
 # Hanzi Cards
 
 A flashcard web app for practising A1 (HSK 1) simplified Chinese characters.
-Each card shows a character with its pinyin and meaning; the learner writes it
-by hand in the box next to it, checks against an overlay, and grades themselves.
+Each card is a two-sided flashcard (click or press F to flip): front = character,
+back = pinyin + meaning (reversed in Recall mode). The learner writes the character
+by hand in the box next to it, presses Check to see an overlay, and grades themselves.
 
 ## How to run
 - No install, no build. Open `index.html` in a browser.
@@ -15,7 +16,7 @@ by hand in the box next to it, checks against an overlay, and grades themselves.
 - `css/style.css` – all styling. Colors and sizes are CSS variables in `:root`.
 - `js/characters.js` – the `CHARACTERS` array. **All learning content lives here.**
 - `js/drawing-pad.js` – `DrawingPad` class: canvas handwriting (strokes, undo, clear).
-- `js/app.js` – card queue, modes (copy/recall), grading, keyboard shortcuts, progress in localStorage.
+- `js/app.js` – card queue, flip card (`buildFaces`, `flip`, `snapToFront`), modes (copy/recall), grading, keyboard shortcuts, progress in localStorage.
 - `scripts/serve.js` – zero-dependency Node static server for localhost.
 - `start.command` / `start.bat` – double-click launchers that start the server and open the browser.
 - `scripts/check-data.js` – validates `characters.js` (fields present, no duplicates, tone marks).

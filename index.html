@@ -24,8 +24,8 @@
         <select id="deck"></select>
       </label>
       <div class="segmented" role="group" aria-label="Mode">
-        <button data-mode="copy" title="See the character and copy it">Copy</button>
-        <button data-mode="recall" title="See only pinyin + meaning, write from memory">Recall</button>
+        <button data-mode="copy" title="Front: character · Back: pinyin + meaning">Copy</button>
+        <button data-mode="recall" title="Front: pinyin + meaning · Back: character. Write it from memory">Recall</button>
       </div>
     </div>
   </header>
@@ -35,12 +35,20 @@
 
   <main id="practice">
     <div class="stage">
-      <section class="card" id="card">
-        <span class="card-tag" id="cardTag"></span>
-        <div class="card-char" id="cardChar"></div>
-        <div class="card-mystery" aria-hidden="true">?</div>
-        <div class="card-pinyin" id="cardPinyin"></div>
-        <div class="card-meaning" id="cardMeaning"></div>
+      <!-- A two-sided flashcard: click (or press F) to flip it over. -->
+      <section class="card" id="card" role="button" tabindex="0" aria-label="Flashcard, click to flip">
+        <div class="card-inner">
+          <div class="face front">
+            <span class="card-tag"></span>
+            <div class="face-body" id="frontBody"></div>
+            <span class="flip-hint">Tap to flip ↻</span>
+          </div>
+          <div class="face back">
+            <span class="card-tag"></span>
+            <div class="face-body" id="backBody"></div>
+            <span class="flip-hint">Tap to flip back ↺</span>
+          </div>
+        </div>
       </section>
 
       <section class="writer">
@@ -72,7 +80,7 @@
     <button class="btn primary" id="restartBtn">Practice again</button>
   </section>
 
-  <footer class="foot">Write in the box with your mouse, finger or stylus · Progress is saved in this browser</footer>
+  <footer class="foot">Tap the card to flip it · Write in the box with your mouse, finger or stylus · Progress is saved in this browser</footer>
 
   <!-- Order matters: data first, then the drawing pad, then the app that uses both. -->
   <script src="js/characters.js"></script>
